@@ -69,7 +69,7 @@ export default function History() {
           <div className="card-topup d-flex justify-content-between my-3">
             <div className="d-flex flex-column">
               <div className="firstName">Phone Number</div>
-              <span className="fw-bold fs-5 mt-2">{PhoneFormat(user.phone)}</span>
+              <span className="fw-bold fs-5 mt-2 phone-number">{PhoneFormat(user.phone)}</span>
             </div>
             <div
               className="manage-phone my-3 mx-3 primary-text cursor-pointer"

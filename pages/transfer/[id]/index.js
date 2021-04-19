@@ -122,7 +122,7 @@ export default function TransferTo() {
             </div>
             <div className="detail-transaction d-flex flex-column mx-3">
               <span className="fw-bold">{user.fullName}</span>
-              <span>{PhoneFormat(user.phone)}</span>
+              <span className="phone-number">{PhoneFormat(user.phone)}</span>
             </div>
           </div>
         )}

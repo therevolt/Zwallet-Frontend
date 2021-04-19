@@ -82,12 +82,12 @@ export default function Home() {
             </span>
           </div>
         )}
-        <div className="action-btn d-flex flex-column mx-5 my-2">
+        <div className="action-btn d-flex mx-5 my-2">
           <div
             className="action-transfer position-relative my-3 cursor-pointer"
             onClick={() => router.push("/transfer")}
           >
-            <div className="position-absolute mx-3">
+            <div className="position-absolute me-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="28"
@@ -119,7 +119,7 @@ export default function Home() {
             className="action-topup position-relative my-3 cursor-pointer"
             onClick={() => router.push("/topup")}
           >
-            <div className="position-absolute mx-3">
+            <div className="position-absolute me-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="28"

@@ -12,7 +12,7 @@ export default function Layout(props) {
         <div style={{ minHeight: "71vh", marginTop: "5vh" }}>{props.children}</div>
       ) : (
         <div
-          className="row my-5 mx-5 px-5 d-flex"
+          className="layout-main row my-5 d-flex"
           style={{ alignItems: "stretch", height: "100%", flexFlow: "wrap" }}
         >
           <div className="col-3">

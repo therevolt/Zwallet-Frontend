@@ -556,6 +556,17 @@ button.btn-change-pass:disabled {
   padding-top: 3em !important;
 }
 
+.layout-main {
+  padding-right: 3rem !important;
+  padding-left: 3rem !important;
+  margin-right: 3rem !important;
+  margin-left: 3rem !important;
+}
+
+.action-btn {
+  flex-direction: column !important;
+}
+
 @media only screen and (max-width: 600px) {
   .left-panel {
     width: 100% !important;
@@ -563,8 +574,12 @@ button.btn-change-pass:disabled {
   .right-panel {
     display: none !important;
   }
-  .title-mobile {
-    display: block;
+  .btn-action-transfer > div {
+    font-size: 12px !important;
+  }
+  .title-mobile,
+  .status-transactions {
+    display: block !important;
   }
   .wrapper-auth {
     margin-top: 0px !important;
@@ -581,7 +596,7 @@ button.btn-change-pass:disabled {
     position: relative !important;
     text-align: center;
   }
-  .create-pin > .pincode-input-container > input.pincode-input-text {
+  .pincode-input-container > input.pincode-input-text {
     margin: 0px 3px !important;
     width: 43px !important;
   }
@@ -600,7 +615,8 @@ button.btn-change-pass:disabled {
   .img-preview > img {
     height: 100vh;
   }
-  .card-feedback {
+  .card-feedback,
+  .status-transactions {
     width: 80vw !important;
   }
   .highlight-title,
@@ -621,5 +637,76 @@ button.btn-change-pass:disabled {
   }
   .card-feature {
     width: 60vw;
+  }
+  .layout-main > div {
+    display: none;
+  }
+  .side-menu {
+    display: none;
+  }
+  .layout-main {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+  }
+  .balance-info {
+    width: 95vw;
+    flex-direction: column;
+    height: fit-content;
+  }
+  .recharts-wrapper svg {
+    width: 82vw !important;
+  }
+  .info-monthly {
+    width: 85vw !important;
+  }
+  .graphic-info {
+    width: 90vw;
+  }
+  .history-info,
+  .position-absolute.mx-4.my-4.title-name.primary-text {
+    display: none;
+  }
+  .d-flex.position-absolute.end-0.my-4,
+  .balance-info {
+    width: 90vw !important;
+  }
+  .center-input > input {
+    width: 80vw !important;
+  }
+  .footer-logged {
+    display: none;
+  }
+  .action-btn {
+    flex-direction: row !important;
+    justify-content: space-between;
+  }
+  .action-btn > div {
+    width: 50vw;
+    margin: 0px 5px;
+  }
+  .full-history,
+  .status-transactions {
+    display: block !important;
+    margin: 0px 20px;
+    height: fit-content;
+    width: 90vw !important;
+  }
+  .info-transfer,
+  .desc {
+    width: fit-content !important;
+    text-align: center;
+  }
+  .btn-filled.continue {
+    margin-left: 10vw !important;
+    margin-bottom: 5vh;
+  }
+  .phone-number {
+    font-size: 14px !important;
+    margin-top: 5px;
+  }
+  .card-action-profile {
+    width: 80vw !important;
   }
 }
