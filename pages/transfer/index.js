@@ -10,7 +10,9 @@ export default function History() {
   const router = useRouter();
   const [list, setList] = useState(null);
   const [defaultList, setDefaultList] = useState(null);
-  const [search, setSearch] = useState(null);
+  const [page, setPage] = useState([]);
+  const [pageSelected, setPageSelected] = useState("0");
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
     if (!localStorage.getItem("user")) {
@@ -19,9 +21,15 @@ export default function History() {
     } else {
       if (!list) {
         axiosApiInstance
-          .get(`${process.env.NEXT_PUBLIC_URL_API}/users/lists`)
+          .get(`${process.env.NEXT_PUBLIC_URL_API}/users/lists?page=${pageSelected}&limit=4`)
           .then((result) => {
             setList(result.data.data);
+            const listPage = [];
+            for (let i = 0; i < result.data.data.totalPages; i++) {
+              listPage.push(i);
+            }
+            setPage(listPage);
+            setUserId(JSON.parse(localStorage.getItem("user")).userId);
             setDefaultList(result.data.data);
           })
           .catch((err) => {
@@ -29,16 +37,28 @@ export default function History() {
           });
       }
     }
-  }, []);
+  }, [pageSelected]);
 
   const handleSearch = (e) => {
     if (list) {
       if (e.target.value) {
-        setList(
-          list.filter((item) => item.fullName.toLowerCase().match(e.target.value.toLowerCase()))
-        );
+        setList({
+          ...list,
+          wallets: list.wallets.filter((item) =>
+            item.fullName.toLowerCase().match(e.target.value.toLowerCase())
+          ),
+        });
       } else {
         setList(defaultList);
+      }
+    }
+  };
+
+  const handlePagination = (e) => {
+    if (e.target.id) {
+      if (pageSelected !== e.target.id) {
+        setPageSelected(e.target.id);
+        setList(null);
       }
     }
   };
@@ -86,34 +106,125 @@ export default function History() {
           onChange={handleSearch}
         />
       </div>
-      <div className="contact mx-4">
+      <div className="contact mx-4" style={{ minHeight: "50vh" }}>
         {list &&
-          list.map((item) => {
-            return (
-              <Link href={`/transfer/${item.userId}`}>
-                <a>
-                  <div className="card-contact d-flex justify-content-between my-3">
-                    <div className="d-flex">
-                      <div className="avatar-user">
-                        <img
-                          src={item.avatar}
-                          alt=""
-                          width="56px"
-                          height="46px"
-                          style={{ borderRadius: "10px" }}
-                        />
-                      </div>
-                      <div className="detail-transaction d-flex flex-column mx-3">
-                        <span className="fw-bold">{item.fullName}</span>
-                        <span>{PhoneFormat(item.phone)}</span>
+          list.wallets.map((item, i) => {
+            if (item.userId !== userId) {
+              return (
+                <Link href={`/transfer/${item.userId}`} key={i}>
+                  <a>
+                    <div className="card-contact d-flex justify-content-between my-3">
+                      <div className="d-flex">
+                        <div className="avatar-user">
+                          <img
+                            src={item.avatar}
+                            alt=""
+                            width="56px"
+                            height="46px"
+                            style={{ borderRadius: "10px" }}
+                          />
+                        </div>
+                        <div className="detail-transaction d-flex flex-column mx-3">
+                          <span className="fw-bold">{item.fullName}</span>
+                          <span>{PhoneFormat(item.phone)}</span>
+                        </div>
                       </div>
                     </div>
+                  </a>
+                </Link>
+              );
+            } else {
+              return (
+                <div
+                  className="card-contact d-flex justify-content-between my-3"
+                  key={i}
+                  onClick={() => Swal.fire("Hey", "It's You!! :D", "info")}
+                >
+                  <div className="d-flex">
+                    <div className="avatar-user">
+                      <img
+                        src={item.avatar}
+                        alt=""
+                        width="56px"
+                        height="46px"
+                        style={{ borderRadius: "10px" }}
+                      />
+                    </div>
+                    <div className="detail-transaction d-flex flex-column mx-3">
+                      <span className="fw-bold">{item.fullName}</span>
+                      <span>{PhoneFormat(item.phone)}</span>
+                    </div>
                   </div>
-                </a>
-              </Link>
-            );
+                </div>
+              );
+            }
           })}
       </div>
+      <nav style={{ width: "100%" }}>
+        <ul className="pagination" style={{ placeContent: "center" }}>
+          <li
+            className={
+              pageSelected === "0"
+                ? "page-item cursor-pointer disabled"
+                : "page-item cursor-pointer"
+            }
+            id="prev"
+            onClick={() => {
+              if (pageSelected === "0") {
+                return null;
+              } else {
+                setList(null);
+                return setPageSelected((parseInt(pageSelected) - 1).toString());
+              }
+            }}
+          >
+            <a className="page-link">Previous</a>
+          </li>
+          {page.length > 0 &&
+            page.map((item) => {
+              return (
+                <li
+                  className={
+                    pageSelected.toString() === item.toString()
+                      ? "page-item cursor-pointer active"
+                      : "page-item cursor-pointer"
+                  }
+                  onClick={handlePagination}
+                >
+                  <a
+                    className={
+                      pageSelected.toString() === item.toString()
+                        ? "page-link text-white"
+                        : "page-link"
+                    }
+                    id={item}
+                    key={item}
+                  >
+                    {item + 1}
+                  </a>
+                </li>
+              );
+            })}
+          <li
+            className={
+              pageSelected === (page.length - 1).toString()
+                ? "page-item cursor-pointer disabled"
+                : "page-item cursor-pointer"
+            }
+            id="next"
+            onClick={() => {
+              if (pageSelected === (page.length - 1).toString()) {
+                return null;
+              } else {
+                setList(null);
+                return setPageSelected((parseInt(pageSelected) + 1).toString());
+              }
+            }}
+          >
+            <a className="page-link">Next</a>
+          </li>
+        </ul>
+      </nav>
     </Layout>
   );
 }

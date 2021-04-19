@@ -65,7 +65,11 @@ export default function Navbar(props) {
         </div>
         {props.type === "logged" && user ? (
           <div className="d-flex position-absolute end-0 my-4">
-            <div className="d-flex cursor-pointer" id="user-info">
+            <div
+              className="d-flex cursor-pointer"
+              id="user-info"
+              onClick={() => router.push("/profile")}
+            >
               <img
                 src={user.avatar}
                 alt=""

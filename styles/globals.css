@@ -24,6 +24,10 @@ ul {
   padding-left: 0 !important;
 }
 
+.text-white {
+  color: white !important;
+}
+
 .outline-none {
   outline: none !important;
 }
