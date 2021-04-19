@@ -4,7 +4,7 @@ import SideMenu from "../../component/module/sideMenu";
 export default function Topup() {
   return (
     <Layout
-      title="Home Pages"
+      title="Topup Pages"
       navbar="logged"
       footer="logged"
       type="no-auth"

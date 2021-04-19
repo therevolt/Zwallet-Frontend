@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import InputPin from "react-pin-input";
 import Swal from "sweetalert2";
+import Header from "../../component/base/Head";
 
 export default function CreatePin() {
   const [data, setData] = useState("");
@@ -31,6 +32,7 @@ export default function CreatePin() {
 
   return (
     <div className="row login-page">
+      <Header name="Create New PIN" />
       <div className="col-7 right-panel">
         <div className="container d-flex flex-column align-items-center py-3">
           <div className="title-name text-white" style={{ width: "35vw" }}>
@@ -52,7 +54,8 @@ export default function CreatePin() {
         </div>
       </div>
       <div className="col-5 left-panel">
-        <div className="d-flex flex-column mt-4 pt-5 mx-5 pe-4">
+        <div className="text-center my-4 title-mobile title-name primary-text">ZWallet</div>
+        <div className="wrapper-auth d-flex flex-column mx-5 pe-4">
           <div className="title-login-input">
             Secure Your Account, Your Wallet, and Your Data With 6 Digits PIN That You Created
             Yourself.

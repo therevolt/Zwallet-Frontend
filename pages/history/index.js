@@ -9,7 +9,7 @@ export default function History() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [wallet, setWallet] = useState(null);
-  const [sort, setSort] = useState("");
+  const [sort, setSort] = useState("desc");
 
   useEffect(() => {
     if (!localStorage.getItem("user")) {
@@ -40,7 +40,7 @@ export default function History() {
 
   return (
     <Layout
-      title="Home Pages"
+      title="History Pages"
       navbar="logged"
       footer="logged"
       type="no-auth"

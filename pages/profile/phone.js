@@ -75,7 +75,7 @@ export default function History() {
 
   return (
     <Layout
-      title="Home Pages"
+      title="Manage Phone Number"
       navbar="logged"
       footer="logged"
       type="no-auth"

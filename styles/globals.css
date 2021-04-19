@@ -542,3 +542,43 @@ button.btn-change-pass:disabled {
   border-radius: 10px;
   padding: 20px;
 }
+
+.title-mobile {
+  display: none;
+}
+
+.wrapper-auth {
+  margin-top: 3em !important;
+  padding-top: 3em !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .left-panel {
+    width: 100% !important;
+  }
+  .right-panel {
+    display: none !important;
+  }
+  .title-mobile {
+    display: block;
+  }
+  .wrapper-auth {
+    margin-top: 0px !important;
+    padding-top: 0px !important;
+  }
+  input#email,
+  input#password,
+  input#username,
+  .forgot-pass,
+  .btn-filled.login {
+    width: 75vw;
+  }
+  .forgot-pass > div {
+    position: relative !important;
+    text-align: center;
+  }
+  .create-pin > .pincode-input-container > input.pincode-input-text {
+    margin: 0px 3px !important;
+    width: 43px !important;
+  }
+}

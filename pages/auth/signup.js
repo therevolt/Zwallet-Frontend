@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
+import Header from "../../component/base/Head";
 
 export default function SignUp() {
   const [data, setData] = useState("");
@@ -36,6 +37,7 @@ export default function SignUp() {
 
   return (
     <div className="row login-page">
+      <Header name="SignUp Pages" />
       <div className="col-7 right-panel">
         <div className="container d-flex flex-column align-items-center py-3">
           <div className="title-name text-white" style={{ width: "35vw" }}>
@@ -57,7 +59,8 @@ export default function SignUp() {
         </div>
       </div>
       <div className="col-5 left-panel">
-        <div className="d-flex flex-column mt-5 pt-5 mx-5 pe-4">
+        <div className="text-center my-4 title-mobile title-name primary-text">ZWallet</div>
+        <div className="wrapper-auth d-flex flex-column mx-5 pe-4">
           <div className="title-login-input">
             Start Accessing Banking Needs With All Devices and All Platforms With 30.000+ Users
           </div>

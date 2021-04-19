@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Header from "../../component/base/Head";
 
 export default function Login() {
   const router = useRouter();
@@ -38,6 +39,7 @@ export default function Login() {
 
   return (
     <div className="row login-page">
+      <Header name="Login Pages" />
       <div className="col-7 right-panel">
         <div className="container d-flex flex-column align-items-center py-3">
           <div className="title-name text-white" style={{ width: "35vw" }}>
@@ -59,7 +61,8 @@ export default function Login() {
         </div>
       </div>
       <div className="col-5 left-panel">
-        <div className="d-flex flex-column mt-5 pt-5 mx-5 pe-4">
+        <div className="text-center my-4 title-mobile title-name primary-text">ZWallet</div>
+        <div className="wrapper-auth d-flex flex-column mx-5 pe-4">
           <div className="title-login-input">
             Start Accessing Banking Needs With All Devices and All Platforms With 30.000+ Users
           </div>
@@ -81,7 +84,7 @@ export default function Login() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeOpacity="0.6"
-                  strokewidth="2"
+                  strokeWidth="2"
                   d="M 22 5 H 2 V 19 H 22 V 5 Z"
                 />
                 <path
@@ -89,7 +92,7 @@ export default function Login() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeOpacity="0.6"
-                  strokewidth="2"
+                  strokeWidth="2"
                   d="M 3 6 L 12 13 L 21 6"
                 />
               </svg>
@@ -140,10 +143,19 @@ export default function Login() {
             />
           </div>
           <div className="forgot-pass position-relative">
-            <div className="position-absolute end-0">Forgot Password?</div>
+            <div
+              className="position-absolute end-0 fw-bold primary-text cursor-pointer"
+              onClick={() => router.push("/auth/reset_password")}
+            >
+              Forgot Password?
+            </div>
           </div>
           <div className="mt-5 pt-5">
-            <button className="btn-filled login text-white" onClick={handleClick}>
+            <button
+              className="btn-filled login text-white"
+              onClick={handleClick}
+              disabled={data && data.email && data.password ? false : true}
+            >
               Login
             </button>
           </div>

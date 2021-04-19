@@ -35,7 +35,7 @@ export default function History() {
 
   return (
     <Layout
-      title="Home Pages"
+      title="Personal Information"
       navbar="logged"
       footer="logged"
       type="no-auth"

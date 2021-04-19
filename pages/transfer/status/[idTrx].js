@@ -28,7 +28,7 @@ export default function History() {
 
   return (
     <Layout
-      title="Home Pages"
+      title="Transfer Status"
       navbar="logged"
       footer="logged"
       type="no-auth"

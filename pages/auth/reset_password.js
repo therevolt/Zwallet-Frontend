@@ -1,6 +1,16 @@
-export default function CreatePin() {
+import { useState } from "react";
+import Header from "../../component/base/Head";
+
+export default function ResetPassword() {
+  const [data, setData] = useState(null);
+
+  const handleChange = (e) => {
+    setData({ email: e.target.value });
+  };
+
   return (
     <div className="row login-page">
+      <Header name="Reset Password" />
       <div className="col-7 right-panel">
         <div className="container d-flex flex-column align-items-center py-3">
           <div className="title-name text-white" style={{ width: "35vw" }}>
@@ -22,7 +32,8 @@ export default function CreatePin() {
         </div>
       </div>
       <div className="col-5 left-panel">
-        <div className="d-flex flex-column mt-4 pt-5 mx-5 pe-4">
+        <div className="text-center my-4 title-mobile title-name primary-text">ZWallet</div>
+        <div className="wrapper-auth d-flex flex-column mx-5 pe-4">
           <div className="title-login-input">
             Did You Forgot Your Password? Don’t Worry, You Can Reset Your Password In a Minutes.
           </div>
@@ -57,10 +68,21 @@ export default function CreatePin() {
                 />
               </svg>
             </div>
-            <input type="email" name="email" id="email" placeholder="Enter your e-mail" />
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Enter your e-mail"
+              onChange={handleChange}
+            />
           </div>
           <div className="mt-3 pt-3">
-            <button className="btn-filled login text-white">Confirm</button>
+            <button
+              className="btn-filled login text-white"
+              disabled={data && data.email && data.email.match(/@\w*\.com/) ? false : true}
+            >
+              Confirm
+            </button>
           </div>
         </div>
       </div>

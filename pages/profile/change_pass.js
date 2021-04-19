@@ -49,7 +49,7 @@ export default function History() {
 
   return (
     <Layout
-      title="Home Pages"
+      title="Change Password"
       navbar="logged"
       footer="logged"
       type="no-auth"

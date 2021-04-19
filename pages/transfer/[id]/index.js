@@ -107,7 +107,7 @@ export default function TransferTo() {
 
   return (
     <Layout
-      title="Home Pages"
+      title="Transfers"
       navbar="logged"
       footer="logged"
       type="no-auth"
