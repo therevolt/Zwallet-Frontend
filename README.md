@@ -32,13 +32,13 @@ cd Zwallet-Frontend
 - Type ``` npm run dev``` To Start Website
 
 ## 🔎 Preview Design <a name = "preview"></a>
-- Landing Pages
+- <b>Landing Page</b>
 ![Preview](https://i.ibb.co/RBvjMhh/Untitled-design-17.png)
-- Login Pages
-![Preview](https://i.ibb.co/ctKTfh9/Login-Pages.png)
-- Home Pages
+- <b>Login Page</b>
+<br/> ![Preview](https://i.ibb.co/ctKTfh9/Login-Pages.png)
+- <b>Home Page</b>
 ![Preview](https://i.ibb.co/N9Qfkgk/Home-Pages.png)
-- Transfer Pages
+- <b>Transfer Page</b>
 ![Preview](https://i.ibb.co/rssPC1L/Transfer-Pages.png)
 
 ## 💻 Live Demo <a name = "live_demo"></a>
