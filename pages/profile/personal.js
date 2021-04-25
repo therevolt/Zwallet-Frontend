@@ -10,7 +10,7 @@ export default function History() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (localStorage.getItem("user")) {
+    if (localStorage.getItem("token")) {
       if (!user) {
         axiosApiInstance
           .get(`${process.env.NEXT_PUBLIC_URL_API}/users`)

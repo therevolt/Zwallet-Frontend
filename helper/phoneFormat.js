@@ -17,7 +17,9 @@ const PhoneFormat = (value) => {
       .filter((i, j) => j >= 11 && i)
       .join(""),
   };
-  return `+62 ${json.num1}-${json.num2}-${json.num3}${json.numN && `-${json.numN}`}`;
+  return json.num1
+    ? `+62 ${json.num1}-${json.num2}-${json.num3}${json.numN && `-${json.numN}`}`
+    : "-";
 };
 
 export default PhoneFormat;

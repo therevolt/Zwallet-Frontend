@@ -1,8 +1,16 @@
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import Layout from "../component/base/Layout";
+import { useSelector } from "react-redux";
+import Button from "../component/base/Button";
 
 export default function Home() {
   const router = useRouter();
+  const state = useSelector((users) => users);
+
+  useEffect(() => {
+    console.log(state);
+  }, []);
 
   return (
     <Layout title="Landing Page" navbar="landing" footer="landing" type="landing">
@@ -18,12 +26,11 @@ export default function Home() {
               We bring you a mobile app for banking problems <br /> that oftenly wasting much of
               your times.
             </div>
-            <button
+            <Button
               className="btn-signup fit-content my-3 primary-text fs-5"
               onClick={() => router.push("/auth/signup")}
-            >
-              Try It Free
-            </button>
+              text="Try It Free"
+            />
           </div>
         </div>
       </div>

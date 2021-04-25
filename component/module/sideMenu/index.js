@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 
 export default function SideMenu() {
   const [active, setActive] = useState(false);
   const classes = "my-5 cursor-pointer menu-active";
   const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     let location = window.location.href.split("/")[3];
@@ -21,6 +23,7 @@ export default function SideMenu() {
 
   const Logout = () => {
     localStorage.removeItem("user");
+    dispatch({ type: "LOGOUT" });
     router.push("/");
   };
 

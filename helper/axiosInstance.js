@@ -5,10 +5,12 @@ const Swal = require("sweetalert2");
 // Request interceptor for API calls
 axiosApiInstance.interceptors.request.use(
   async (config) => {
-    if (localStorage.getItem("user")) {
-      config.headers = {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`,
-      };
+    if (localStorage) {
+      if (localStorage.getItem("token")) {
+        config.headers = {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        };
+      }
     }
     return config;
   },

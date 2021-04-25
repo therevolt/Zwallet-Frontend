@@ -1,24 +1,37 @@
 import axios from "axios";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import Button from "../../component/base/Button";
-import Header from "../../component/base/Head";
+import Button from "../component/base/Button";
+import Header from "../component/base/Head";
 
 export default function ResetPassword() {
-  const [data, setData] = useState({ email: "" });
+  const [data, setData] = useState({ password: "" });
+  const router = useRouter();
+  const token = location.href.split("token=")[1];
+
+  useEffect(() => {
+    if (!token) {
+      router.push("/auth/login");
+    }
+  }, []);
 
   const handleChange = (e) => {
-    setData({ email: e.target.value });
+    setData({ password: e.target.value });
   };
 
   const handleSubmit = () => {
     axios
-      .post(`${process.env.NEXT_PUBLIC_URL_API}/users/reset`, data)
+      .put(`${process.env.NEXT_PUBLIC_URL_API}/users/reset`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((result) => {
         Swal.fire("Success", result.data.message, "success");
+        router.push("/auth/login");
       })
       .catch((err) => {
         Swal.fire("Error", err.response.data.message, "error");
+        setData({ password: "" });
       });
   };
 
@@ -48,14 +61,9 @@ export default function ResetPassword() {
       <div className="col-5 left-panel">
         <div className="text-center my-4 title-mobile title-name primary-text">ZWallet</div>
         <div className="wrapper-auth d-flex flex-column mx-5 pe-4">
-          <div className="title-login-input">
-            Did You Forgot Your Password? Don’t Worry, You Can Reset Your Password In a Minutes.
-          </div>
-          <div className="title-login-input-2 mt-4">
-            To reset your password, you must type your e-mail and we will send a link to your email
-            and you will be directed to the reset password screens.
-          </div>
-          <div className="input-email position-relative my-5">
+          <div className="title-login-input">Set New Password Here</div>
+          <div className="title-login-input-2 mt-4">Passwords must be longer than 6</div>
+          <div className="input-password position-relative my-5">
             <div className="position-absolute">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -65,35 +73,36 @@ export default function ResetPassword() {
                 height="24"
               >
                 <path
-                  stroke={data.email ? "#6379F4" : "#3A3D42"}
+                  stroke={data.password ? "#6379F4" : "#3A3D42"}
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeOpacity="0.6"
                   strokeWidth="2"
-                  d="M 22 5 H 2 V 19 H 22 V 5 Z"
+                  d="M 19 11 H 5 V 21 H 19 V 11 Z"
                 />
                 <path
-                  stroke={data.email ? "#6379F4" : "#3A3D42"}
-                  strokeLinecap="round"
+                  stroke={data.password ? "#6379F4" : "#3A3D42"}
+                  strokeLinecap="square"
                   strokeLinejoin="round"
                   strokeOpacity="0.6"
                   strokeWidth="2"
-                  d="M 3 6 L 12 13 L 21 6"
+                  d="M 17 9 V 8 C 17 5.23858 14.7614 3 12 3 C 9.23858 3 7 5.23858 7 8 V 9"
                 />
               </svg>
             </div>
             <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Enter your e-mail"
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Enter your new password"
               onChange={handleChange}
+              value={data.password}
             />
           </div>
           <div className="mt-3 pt-3">
             <Button
               className="btn-filled login text-white"
-              disabled={data && data.email && data.email.match(/@\w*\.com/) ? false : true}
+              disabled={data && data.password && data.password.length > 6 ? false : true}
               text="Confirm"
               onClick={handleSubmit}
             />

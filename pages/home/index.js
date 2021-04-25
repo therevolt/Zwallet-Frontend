@@ -6,9 +6,12 @@ import axiosApiInstance from "../../helper/axiosInstance";
 import Rupiah from "../../helper/rupiah";
 import PhoneFormat from "../../helper/phoneFormat";
 import { BarChart, Bar, XAxis, Tooltip } from "recharts";
+import { useSelector } from "react-redux";
+import Button from "../../component/base/Button";
 
 export default function Home() {
   const router = useRouter();
+  const state = useSelector((states) => states.user);
   const [user, setUser] = useState(null);
   const [wallet, setWallet] = useState(null);
   const [data, setData] = useState(null);
@@ -19,7 +22,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("user")) {
+    if (!localStorage.getItem("token")) {
       Swal.fire("Restricted Area", "Only Users Can Be Access", "warning");
       router.push("/auth/login");
     } else {
@@ -64,7 +67,7 @@ export default function Home() {
       navbar="logged"
       footer="logged"
       type="no-auth"
-      classContent="col-9 d-flex flex-column"
+      classContent="col-lg-9 col-md-8 col-sm-8 d-flex flex-column"
     >
       <div className="balance-info d-flex justify-content-between">
         {user && (
@@ -82,11 +85,8 @@ export default function Home() {
             </span>
           </div>
         )}
-        <div className="action-btn d-flex mx-5 my-2">
-          <div
-            className="action-transfer position-relative my-3 cursor-pointer"
-            onClick={() => router.push("/transfer")}
-          >
+        <div className="action-btn d-flex mx-5 my-2 d-md-none d-lg-flex d-sm-none d-xs-flex">
+          <div className="action-transfer position-relative my-3 cursor-pointer">
             <div className="position-absolute me-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -112,13 +112,14 @@ export default function Home() {
                   strokeLinejoin="round"
                 />
               </svg>
-              <button className="position-absolute btn-transparent text-white">Transfer</button>
+              <Button
+                className="position-absolute btn-transparent text-white"
+                text="Transfer"
+                onClick={() => router.push("/transfer")}
+              />
             </div>
           </div>
-          <div
-            className="action-topup position-relative my-3 cursor-pointer"
-            onClick={() => router.push("/topup")}
-          >
+          <div className="action-topup position-relative my-3 cursor-pointer">
             <div className="position-absolute me-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -144,7 +145,11 @@ export default function Home() {
                   strokeLinejoin="round"
                 />
               </svg>
-              <button className="position-absolute btn-transparent text-white">TopUp</button>
+              <Button
+                className="position-absolute btn-transparent text-white"
+                text="TopUp"
+                onClick={() => router.push("/topup")}
+              />
             </div>
           </div>
         </div>
@@ -224,7 +229,7 @@ export default function Home() {
             <Bar dataKey="expense" fill="#9DA6B5" isAnimationActive={true} />
           </BarChart>
         </div>
-        <div className="history-info">
+        <div className="history-info d-none d-lg-block">
           <div className="head-history d-flex justify-content-between mx-4 my-4">
             <span className="fw-bold">Transaction History</span>
             <span className="primary-text cursor-pointer" onClick={handleClick}>
@@ -236,15 +241,15 @@ export default function Home() {
               if (i < 4) {
                 if (item.receiver === wallet.userId) {
                   return (
-                    <div className="card-history d-flex justify-content-between mx-4 my-4">
+                    <div className="card-history d-flex justify-content-between mx-4 my-4" key={i}>
                       <div className="d-flex">
                         <div className="avatar-user me-2 my-1">
                           <img
                             src={item.avatarSender}
+                            className="profile"
                             alt=""
-                            width="56px"
-                            height="40px"
-                            style={{ borderRadius: "10px" }}
+                            width="52px"
+                            height="52px"
                           />
                         </div>
                         <div className="detail-transaction d-flex flex-column">
@@ -257,14 +262,14 @@ export default function Home() {
                   );
                 } else {
                   return (
-                    <div className="card-history d-flex justify-content-between mx-4 my-4">
+                    <div className="card-history d-flex justify-content-between mx-4 my-4" key={i}>
                       <div className="d-flex">
                         <div className="avatar-user me-2 my-1">
                           <img
                             src={item.avatarReceiver}
                             alt=""
-                            width="56px"
-                            height="40px"
+                            width="52px"
+                            height="52px"
                             style={{ borderRadius: "10px" }}
                           />
                         </div>

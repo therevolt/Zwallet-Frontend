@@ -1,57 +1,84 @@
 import Layout from "../../component/base/Layout";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import Modal from "react-modal";
 import Swal from "sweetalert2";
 import axiosApiInstance from "../../helper/axiosInstance";
-import InputPin from "react-pin-input";
+import { useDispatch, useSelector } from "react-redux";
 import PhoneFormat from "../../helper/phoneFormat";
+import InputPin from "react-pin-input";
+import Button from "../../component/base/Button";
+
+Modal.setAppElement("#__next");
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    borderRadius: "25px",
+    transform: "translate(-50%, -50%)",
+  },
+};
 
 export default function History() {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [data, setData] = useState({
     phone: "",
   });
   const [page, setPage] = useState("manage");
+  const [modal, setModal] = useState(false);
+  const state = useSelector((states) => states.user.data);
+  let subtitle;
 
   useEffect(() => {
-    axiosApiInstance
-      .get(`${process.env.NEXT_PUBLIC_URL_API}/users`)
-      .then((result) => {
-        if (result.data.data.phone && result.data.data.phone !== "0") {
+    if (localStorage.getItem("token")) {
+      if (state) {
+        if (state.phone && state.phone !== "0") {
           setPage("manage");
-          setData(result.data.data);
+          setData(state);
         } else {
           setPage("add");
         }
-      })
-      .catch((err) => {
-        if (err.response.data.message === "Token Expired") {
-          localStorage.removeItem("user");
-          router.push("/auth/login");
-        } else {
-          Swal.fire("Error", err.response.data.message, "error");
-          router.push("/profile");
-        }
-      });
+      } else {
+        router.push("/auth/login");
+      }
+    } else {
+      router.push("/auth/login");
+    }
   }, []);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setData({ ...data, [id]: value.replace(/\D*/g, "") });
+    if (id === "phone") {
+      if (value[0] !== "0" && value[0] !== "6" && value[1] !== "2") {
+        console.log(value[0] !== "0");
+        setData({ ...data, [id]: value.replace(/\D*/g, "") });
+      }
+    } else {
+      setData({ ...data, [id]: value.replace(/\D*/g, "") });
+    }
   };
 
-  const handleSubmit = () => {
+  const clickModal = () => {
+    setModal(true);
+  };
+
+  function afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    subtitle.style.color = "#3A3D42";
+  }
+
+  const handleSendOTP = () => {
     if (data.phone) {
       axiosApiInstance
-        .put(`${process.env.NEXT_PUBLIC_URL_API}/users`, data)
+        .post(`${process.env.NEXT_PUBLIC_URL_API}/otp`, { number: `62${data.phone}` })
         .then((result) => {
-          console.log(result);
-          if (result.data.status) {
-            Swal.fire("Success", "Phone Number Added", "success");
-            router.push("/profile/personal");
-          } else {
-            Swal.fire("Something Wrong", result.data.message, "warning");
-          }
+          Swal.fire("Success", result.data.message, "success");
+          clickModal();
         })
         .catch((err) => {
           Swal.fire("Error", err.response.data.message, "error");
@@ -61,10 +88,37 @@ export default function History() {
     }
   };
 
+  const handleSubmit = () => {
+    if (data.otp) {
+      axiosApiInstance
+        .post(`${process.env.NEXT_PUBLIC_URL_API}/otp/compare`, { otp: data.otp })
+        .then((result) => {
+          Swal.fire("Success", result.data.message, "success");
+          setModal(false);
+          axiosApiInstance.get(`${process.env.NEXT_PUBLIC_URL_API}/users`).then((resultUser) => {
+            dispatch({
+              type: "REQUEST_LOGIN",
+              payload: resultUser.data.data,
+            });
+            router.push("/profile");
+          });
+        })
+        .catch((err) => {
+          Swal.fire("Error", err.response.data.message, "error");
+        });
+    } else {
+      Swal.fire("Error", "Enter OTP Code!", "error");
+    }
+  };
+
   const handleDelete = () => {
     axiosApiInstance
       .delete(`${process.env.NEXT_PUBLIC_URL_API}/users/phone`)
-      .then(() => {
+      .then((result) => {
+        dispatch({
+          type: "REQUEST_LOGIN",
+          payload: result.data.data,
+        });
         Swal.fire("Success", "Phone Has Been Deleted", "success");
         router.push("/profile");
       })
@@ -123,13 +177,12 @@ export default function History() {
                   value={data.phone}
                 />
               </div>
-              <button
+              <Button
                 className="btn-change-pass btn-filled my-5"
-                onClick={handleSubmit}
+                onClick={handleSendOTP}
                 disabled={data.phone.length < 10 ? true : false}
-              >
-                Add Phone Number
-              </button>
+                text="Add Phone Number"
+              />
             </div>
           ) : (
             <div className="card-manage-phone d-flex justify-content-between mx-4 my-4">
@@ -165,6 +218,44 @@ export default function History() {
           )}
         </>
       )}
+      <Modal
+        isOpen={modal}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={() => setModal(false)}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <div className="d-flex justify-content-between">
+          <h2
+            ref={(_subtitle) => (subtitle = _subtitle)}
+            style={{ fontWeight: "700", fontSize: "18px", marginTop: "10px" }}
+          >
+            Enter OTP
+          </h2>
+        </div>
+        <span style={{ color: "#898B8E" }}>
+          Enter your 6 digits OTP for confirmation <br />
+          set Phone Number
+        </span>
+        <div className="input-pin">
+          <InputPin
+            length={6}
+            onChange={(value) => setData({ ...data, otp: value })}
+            initialValue=""
+            type="numeric"
+            inputMode="number"
+            autoSelect={true}
+            regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
+            focus={true}
+          />
+        </div>
+        <Button
+          className="btn-filled continue"
+          onClick={handleSubmit}
+          style={{ marginLeft: "270px", marginRight: "0px" }}
+          text="Continue"
+        />
+      </Modal>
     </Layout>
   );
 }

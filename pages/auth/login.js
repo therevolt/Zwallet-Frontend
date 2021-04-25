@@ -3,8 +3,11 @@ import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Header from "../../component/base/Head";
+import { useDispatch } from "react-redux";
+import Button from "../../component/base/Button";
 
 export default function Login() {
+  const dispatch = useDispatch();
   const router = useRouter();
   const defaultJson = {
     email: "",
@@ -24,10 +27,16 @@ export default function Login() {
       Swal.fire("Error!", "Password Cannot Be Null", "error");
     } else {
       axios
-        .post(`${process.env.NEXT_PUBLIC_URL_API}/users/login`, data)
+        .post(`${process.env.NEXT_PUBLIC_URL_API}/users/login`, data, {
+          withCredentials: true,
+        })
         .then((result) => {
           Swal.fire("Success", result.data.message, "success");
-          localStorage.setItem("user", JSON.stringify(result.data.data));
+          localStorage.setItem("token", result.data.data.token);
+          dispatch({
+            type: "REQUEST_LOGIN",
+            payload: result.data.data,
+          });
           router.push("/home");
         })
         .catch((err) => {
@@ -151,13 +160,12 @@ export default function Login() {
             </div>
           </div>
           <div className="mt-5 pt-5">
-            <button
+            <Button
               className="btn-filled login text-white"
               onClick={handleClick}
               disabled={data && data.email && data.password ? false : true}
-            >
-              Login
-            </button>
+              text="Login"
+            />
           </div>
           <div className="sign-up text-center my-4">
             Don’t have an account? Let’s{" "}

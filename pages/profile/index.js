@@ -5,39 +5,25 @@ import Swal from "sweetalert2";
 import axiosApiInstance from "../../helper/axiosInstance";
 import PhoneFormat from "../../helper/phoneFormat";
 import FormData from "form-data";
+import axios from "axios";
+import { useDispatch } from "react-redux";
 
-export default function History() {
+export default function IndexProfile({ users }) {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const form = new FormData();
   const imgRef = useRef();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (localStorage.getItem("user")) {
-      if (!user) {
-        axiosApiInstance
-          .get(`${process.env.NEXT_PUBLIC_URL_API}/users`)
-          .then((result) => {
-            setUser(result.data.data);
-          })
-          .catch((err) => {
-            if (err.response.data.message === "Token Expired") {
-              localStorage.removeItem("user");
-              router.push("/auth/login");
-            } else {
-              Swal.fire("Error", err.response.data.message, "error");
-              router.push("/profile");
-            }
-          });
-      }
+    if (users) {
+      setUser(users);
     } else {
-      Swal.fire("Restricted Area", "Only Users Can Be Access", "warning");
       router.push("/auth/login");
     }
   }, []);
 
   const Logout = () => {
-    localStorage.removeItem("user");
     router.push("/");
   };
 
@@ -50,9 +36,11 @@ export default function History() {
         .put(`${process.env.NEXT_PUBLIC_URL_API}/users`, form)
         .then((result) => {
           setUser({ ...user, avatar: URL.createObjectURL(file) });
-
+          dispatch({
+            type: "REQUEST_LOGIN",
+            payload: result.data.data,
+          });
           Swal.fire("Success", result.data.message, "success");
-          router.reload();
         })
         .catch((err) => {
           Swal.fire("Error", err.response.data.message, "error");
@@ -107,6 +95,7 @@ export default function History() {
               type="file"
               name="avatar"
               id="avatar"
+              className="profile"
               onChange={handleChange}
               hidden
               ref={imgRef}
@@ -218,3 +207,29 @@ export default function History() {
     </Layout>
   );
 }
+
+IndexProfile.getInitialProps = async (ctx) => {
+  if (ctx.req) {
+    const cookie = ctx.req.headers.cookie;
+    if (cookie) {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/users`, {
+        headers: { cookie: cookie },
+      });
+      const result = await res.data.data;
+      return {
+        users: result,
+      };
+    } else {
+      return {
+        users: null,
+      };
+    }
+    // }
+  } else {
+    const res = await axiosApiInstance.get(`${process.env.NEXT_PUBLIC_URL_API}/users`);
+    const result = await res.data.data;
+    return {
+      users: result,
+    };
+  }
+};

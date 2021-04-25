@@ -4,6 +4,7 @@ import { useState } from "react";
 import InputPin from "react-pin-input";
 import Swal from "sweetalert2";
 import Header from "../../component/base/Head";
+import Button from "../../component/base/Button";
 
 export default function CreatePin() {
   const [data, setData] = useState("");
@@ -79,9 +80,7 @@ export default function CreatePin() {
             />
           </div>
           <div className="mt-3 pt-3">
-            <button className="btn-filled login text-white" onClick={handleSubmit}>
-              Confirm
-            </button>
+            <Button className="btn-filled login text-white" onClick={handleSubmit} text="Confirm" />
           </div>
         </div>
       </div>

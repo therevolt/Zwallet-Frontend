@@ -3,6 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
 import Header from "../../component/base/Head";
+import Button from "../../component/base/Button";
 
 export default function SignUp() {
   const [data, setData] = useState("");
@@ -166,13 +167,12 @@ export default function SignUp() {
             />
           </div>
           <div className="mt-3 pt-5">
-            <button
+            <Button
               className="btn-filled login text-white"
               onClick={handleClick}
               disabled={data && data.username && data.email && data.password ? false : true}
-            >
-              Sign Up
-            </button>
+              text="Sign Up"
+            />
           </div>
           <div className="sign-up text-center my-4">
             Already have an account? Let’s{" "}

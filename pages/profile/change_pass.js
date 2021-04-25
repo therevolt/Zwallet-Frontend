@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import axiosApiInstance from "../../helper/axiosInstance";
+import Button from "../../component/base/Button";
 
 export default function History() {
   const router = useRouter();
@@ -300,13 +301,12 @@ export default function History() {
             value={data.new_password2}
           />
         </div>
-        <button
+        <Button
           className="btn-change-pass btn-filled"
           onClick={handleSubmit}
           disabled={data.current_password && data.new_password && data.new_password2 ? false : true}
-        >
-          Change Password
-        </button>
+          text="Change Password"
+        />
       </div>
     </Layout>
   );

@@ -1,28 +1,46 @@
 import Layout from "../../../component/base/Layout";
-import Rupiah from "../../../helper/rupiah";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import axiosApiInstance from "../../../helper/axiosInstance";
-import PhoneFormat from "../../../helper/phoneFormat";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
+import ComponentToPrint from "./ComponentToPrint";
+import { useReactToPrint } from "react-to-print";
+import React, { useRef } from "react";
 
-export default function History() {
+export default function History({ details }) {
   const router = useRouter();
+  const state = useSelector((states) => states.user.data);
   const [data, setData] = useState(null);
+  const [status, setStatus] = useState("sender");
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   useEffect(() => {
-    if (router.query.idTrx) {
-      if (!data) {
-        axiosApiInstance
-          .get(`${process.env.NEXT_PUBLIC_URL_API}/trx/${router.query.idTrx}`)
-          .then((result) => {
-            setData(result.data.data);
-          })
-          .catch(() => {
-            router.push("/transfer");
-          });
+    if (localStorage.getItem("token")) {
+      if (!data && details) {
+        if (details === "ERROR") {
+          Swal.fire("ERROR!", "Transaction Details Not Found", "error");
+          router.push("/history");
+        } else {
+          if (details.senderId === state.userId || details.receiverId === state.userId) {
+            if (details.senderId === state.userId) {
+              setStatus("sender");
+            } else {
+              setStatus("receiver");
+            }
+            setData(details);
+          } else {
+            router.push("/history");
+          }
+        }
+      } else {
+        router.push("/history");
       }
     } else {
-      router.push("/transfer");
+      router.push("/auth/login");
     }
   }, []);
 
@@ -34,49 +52,13 @@ export default function History() {
       type="no-auth"
       classContent="col status-transactions"
     >
-      <div className="d-flex flex-column align-items-center my-5">
-        <img src="/success.png" alt="" />
-        <span className="fw-bold fs-4 my-3">Transfer Success</span>
-      </div>
-      <div className="card-info-transfer mx-4">
-        <div className="title">Amount</div>
-        {data && <div className="body">{Rupiah(data.amount)}</div>}
-      </div>
-      <div className="card-info-transfer mx-4">
-        <div className="title">Balance Left</div>
-        {data && <div className="body">{Rupiah(data.balanceLeft)}</div>}
-      </div>
-      <div className="card-info-transfer mx-4">
-        <div className="title">Date & Time</div>
-        {data && (
-          <div className="body">
-            {new Date(data.date).toDateString()} - {new Date(data.date).toLocaleTimeString()}
-          </div>
-        )}
-      </div>
-      <div className="card-info-transfer mx-4">
-        <div className="title">Notes</div>
-        {data && <div className="body">{data.notes ? data.notes : "-"}</div>}
-      </div>
-      <div style={{ color: "#7A7886", fontWeight: "700", fontSize: "18px" }} className="mx-4 my-4">
-        Transfer to
-      </div>
-      {data && (
-        <div className="card-contact d-flex justify-content-between my-3 mx-4">
-          <div className="d-flex">
-            <div className="avatar-user">
-              <img src={data.avatarReceiver} alt="" width="56px" />
-            </div>
-            <div className="detail-transaction d-flex flex-column mx-3">
-              <span className="fw-bold">{data.receiverName}</span>
-              <span>{PhoneFormat(data.phoneReceiver)}</span>
-            </div>
-          </div>
-        </div>
-      )}
+      {data && <ComponentToPrint data={data} status={status} ref={componentRef} />}
       <div className="btn-action-transfer position-relative mx-4 my-5 py-3">
         <div className="d-flex position-absolute end-0">
-          <div className="btn-share btn-filled2 cursor-pointer">
+          <div
+            className="btn-share btn-filled2 cursor-pointer"
+            onClick={() => Swal.fire("Coming Soon", "", "info")}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -121,7 +103,7 @@ export default function History() {
               />
             </svg>
           </div>
-          <div className="btn-download mx-3 btn-filled2 cursor-pointer">
+          <div className="btn-download mx-3 btn-filled2 cursor-pointer" onClick={handlePrint}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="22"
@@ -151,13 +133,45 @@ export default function History() {
                 strokeLinejoin="round"
               />
             </svg>
-            <span className="mx-2">Download PDF</span>
           </div>
-          <div className="btn-back btn-filled cursor-pointer" onClick={() => router.push("/home")}>
-            Back to Home
-          </div>
+          <div
+            className="btn-back btn-filled cursor-pointer"
+            onClick={() => router.push("/home")}
+          ></div>
         </div>
       </div>
     </Layout>
   );
 }
+
+export const getStaticProps = async (ctx) => {
+  const id = ctx.params.idTrx;
+  let details = "";
+  try {
+    if (id) {
+      const result = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/trx/${id}`);
+      details = result.data.data;
+    }
+  } catch (error) {
+    details = "ERROR";
+  }
+  return {
+    props: {
+      details,
+    },
+  };
+};
+
+export const getStaticPaths = async () => {
+  const result = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/trx/list/all`);
+  const trx = result.data.data;
+  const paths = trx.map((item) => {
+    return {
+      params: { idTrx: item.toString() },
+    };
+  });
+  return {
+    fallback: true,
+    paths,
+  };
+};

@@ -5,6 +5,8 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/router";
 import axiosApiInstance from "../../helper/axiosInstance";
 import PhoneFormat from "../../helper/phoneFormat";
+import { useSelector } from "react-redux";
+import Input from "../../component/base/Input";
 
 export default function History() {
   const router = useRouter();
@@ -13,9 +15,10 @@ export default function History() {
   const [page, setPage] = useState([]);
   const [pageSelected, setPageSelected] = useState("0");
   const [userId, setUserId] = useState("");
+  const state = useSelector((states) => states.user.data);
 
   useEffect(() => {
-    if (!localStorage.getItem("user")) {
+    if (!localStorage.getItem("token")) {
       Swal.fire("Restricted Area", "Only Users Can Be Access", "warning");
       router.push("/auth/login");
     } else {
@@ -29,10 +32,11 @@ export default function History() {
               listPage.push(i);
             }
             setPage(listPage);
-            setUserId(JSON.parse(localStorage.getItem("user")).userId);
+            setUserId(state.userId);
             setDefaultList(result.data.data);
           })
           .catch((err) => {
+            console.log(err);
             Swal.fire("Error", err.response.data.message, "error");
           });
       }
@@ -97,7 +101,7 @@ export default function History() {
             />
           </svg>
         </div>
-        <input
+        <Input
           type="text"
           name="name"
           id="name"
@@ -118,10 +122,10 @@ export default function History() {
                         <div className="avatar-user">
                           <img
                             src={item.avatar}
+                            className="profile"
                             alt=""
-                            width="56px"
-                            height="46px"
-                            style={{ borderRadius: "10px" }}
+                            width="52px"
+                            height="52px"
                           />
                         </div>
                         <div className="detail-transaction d-flex flex-column mx-3">
@@ -160,71 +164,73 @@ export default function History() {
             }
           })}
       </div>
-      <nav style={{ width: "100%" }}>
-        <ul className="pagination" style={{ placeContent: "center" }}>
-          <li
-            className={
-              pageSelected === "0"
-                ? "page-item cursor-pointer disabled"
-                : "page-item cursor-pointer"
-            }
-            id="prev"
-            onClick={() => {
-              if (pageSelected === "0") {
-                return null;
-              } else {
-                setList(null);
-                return setPageSelected((parseInt(pageSelected) - 1).toString());
+      {page.length > 1 && (
+        <nav style={{ width: "100%" }}>
+          <ul className="pagination" style={{ placeContent: "center" }}>
+            <li
+              className={
+                pageSelected === "0"
+                  ? "page-item cursor-pointer disabled"
+                  : "page-item cursor-pointer"
               }
-            }}
-          >
-            <a className="page-link">Previous</a>
-          </li>
-          {page.length > 0 &&
-            page.map((item) => {
-              return (
-                <li
-                  className={
-                    pageSelected.toString() === item.toString()
-                      ? "page-item cursor-pointer active"
-                      : "page-item cursor-pointer"
-                  }
-                  onClick={handlePagination}
-                >
-                  <a
+              id="prev"
+              onClick={() => {
+                if (pageSelected === "0") {
+                  return null;
+                } else {
+                  setList(null);
+                  return setPageSelected((parseInt(pageSelected) - 1).toString());
+                }
+              }}
+            >
+              <a className="page-link">Previous</a>
+            </li>
+            {page.length > 0 &&
+              page.map((item) => {
+                return (
+                  <li
                     className={
                       pageSelected.toString() === item.toString()
-                        ? "page-link text-white"
-                        : "page-link"
+                        ? "page-item cursor-pointer active"
+                        : "page-item cursor-pointer"
                     }
-                    id={item}
-                    key={item}
+                    onClick={handlePagination}
                   >
-                    {item + 1}
-                  </a>
-                </li>
-              );
-            })}
-          <li
-            className={
-              pageSelected === (page.length - 1).toString()
-                ? "page-item cursor-pointer disabled"
-                : "page-item cursor-pointer"
-            }
-            id="next"
-            onClick={() => {
-              if (pageSelected === (page.length - 1).toString()) {
-                return null;
-              } else {
-                setList(null);
-                return setPageSelected((parseInt(pageSelected) + 1).toString());
+                    <a
+                      className={
+                        pageSelected.toString() === item.toString()
+                          ? "page-link text-white"
+                          : "page-link"
+                      }
+                      id={item}
+                      key={item}
+                    >
+                      {item + 1}
+                    </a>
+                  </li>
+                );
+              })}
+            <li
+              className={
+                pageSelected === (page.length - 1).toString()
+                  ? "page-item cursor-pointer disabled"
+                  : "page-item cursor-pointer"
               }
-            }}
-          >
-            <a className="page-link">Next</a>
-          </li>
-        </ul>
-      </nav>
+              id="next"
+              onClick={() => {
+                if (pageSelected === (page.length - 1).toString()) {
+                  return null;
+                } else {
+                  setList(null);
+                  return setPageSelected((parseInt(pageSelected) + 1).toString());
+                }
+              }}
+            >
+              <a className="page-link">Next</a>
+            </li>
+          </ul>
+        </nav>
+      )}
     </Layout>
   );
 }

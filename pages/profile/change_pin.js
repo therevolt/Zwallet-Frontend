@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Swal from "sweetalert2";
 import axiosApiInstance from "../../helper/axiosInstance";
 import InputPin from "react-pin-input";
+import Button from "../../component/base/Button";
 
 export default function History() {
   const router = useRouter();
@@ -69,7 +70,7 @@ export default function History() {
           }}
           ref={input}
         />
-        <button
+        <Button
           className="btn-change-pass btn-filled my-5"
           onClick={handleSubmit}
           disabled={
@@ -79,9 +80,8 @@ export default function History() {
               ? data.new_pin.length < 6 && true
               : false
           }
-        >
-          {page === "index" ? "Continue" : "Change PIN"}
-        </button>
+          text={page === "index" ? "Continue" : "Change PIN"}
+        />
       </div>
     </Layout>
   );

@@ -4,20 +4,23 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import axiosApiInstance from "../../helper/axiosInstance";
 import Rupiah from "../../helper/rupiah";
+import { useSelector } from "react-redux";
+import Button from "../../component/base/Button";
 
 export default function History() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [wallet, setWallet] = useState(null);
   const [sort, setSort] = useState("desc");
+  const state = useSelector((states) => states.user.data);
 
   useEffect(() => {
-    if (!localStorage.getItem("user")) {
+    if (!localStorage.getItem("token")) {
       Swal.fire("Restricted Area", "Only Users Can Be Access", "warning");
       router.push("/auth/login");
     } else {
       if (!user) {
-        setUser(JSON.parse(localStorage.getItem("user")));
+        setUser(state);
       }
       axiosApiInstance
         .get(`${process.env.NEXT_PUBLIC_URL_API}/wallet/dashboard?sort=${sort}`)
@@ -38,6 +41,12 @@ export default function History() {
     }
   };
 
+  const clickHistory = (e) => {
+    if (e.target.id) {
+      router.push(`/transfer/status/${e.target.id}`);
+    }
+  };
+
   return (
     <Layout
       title="History Pages"
@@ -48,26 +57,30 @@ export default function History() {
     >
       <div className="head-transaction d-flex justify-content-between mx-4 my-4 fw-bold fs-4">
         <span>Transaction History</span>
-        <button
+        <Button
           className="btn-filled px-2 py-2 fs-5 text-white fw-bold outline-none"
           onClick={handleSort}
-        >
-          {sort === "desc" ? "New ↑" : "New ↓"}
-        </button>
+          text={sort === "desc" ? "New ↑" : "New ↓"}
+        />
       </div>
-      {wallet &&
+      {wallet && wallet.history.length > 0 ? (
         wallet.history.map((item, i) => {
           if (item.receiver === wallet.userId) {
             return (
-              <div className="card-history d-flex justify-content-between mx-4 my-4">
+              <div
+                className="card-history d-flex justify-content-between mx-4 my-4 cursor-pointer"
+                key={i}
+                id={item.id}
+                onClick={clickHistory}
+              >
                 <div className="d-flex">
                   <div className="avatar-user me-2 my-1">
                     <img
                       src={item.avatarSender}
+                      className="profile"
                       alt=""
-                      width="56px"
-                      height="45px"
-                      style={{ borderRadius: "10px" }}
+                      width="52px"
+                      height="52px"
                     />
                   </div>
                   <div className="detail-transaction d-flex flex-column">
@@ -80,14 +93,19 @@ export default function History() {
             );
           } else {
             return (
-              <div className="card-history d-flex justify-content-between mx-4 my-4">
+              <div
+                className="card-history d-flex justify-content-between mx-4 my-4 cursor-pointer"
+                key={i}
+                id={item.id}
+                onClick={clickHistory}
+              >
                 <div className="d-flex">
                   <div className="avatar-user me-2 my-1">
                     <img
                       src={item.avatarReceiver}
                       alt=""
-                      width="56px"
-                      height="45px"
+                      width="52px"
+                      height="52px"
                       style={{ borderRadius: "10px" }}
                     />
                   </div>
@@ -100,7 +118,13 @@ export default function History() {
               </div>
             );
           }
-        })}
+        })
+      ) : (
+        <>
+          <img src="/history.svg" width="300px" style={{ margin: "50px 20vw" }}></img>
+          <p style={{ textAlign: "center" }}>No Have History Transactions</p>
+        </>
+      )}
     </Layout>
   );
 }
