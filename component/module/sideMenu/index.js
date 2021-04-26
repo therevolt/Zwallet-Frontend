@@ -22,7 +22,8 @@ export default function SideMenu() {
   };
 
   const Logout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    document.cookie = "";
     dispatch({ type: "LOGOUT" });
     router.push("/");
   };

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Header from "../../component/base/Head";
@@ -14,6 +14,12 @@ export default function Login() {
     password: "",
   };
   const [data, setData] = useState(defaultJson);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      router.push("/home");
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { id, value } = e.target;

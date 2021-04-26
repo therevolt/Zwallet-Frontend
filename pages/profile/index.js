@@ -16,8 +16,12 @@ export default function IndexProfile({ users }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (users) {
-      setUser(users);
+    if (localStorage.getItem("token")) {
+      if (users) {
+        setUser(users);
+      } else {
+        router.push("/auth/login");
+      }
     } else {
       router.push("/auth/login");
     }

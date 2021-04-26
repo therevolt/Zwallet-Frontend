@@ -1,6 +1,6 @@
 import Layout from "../../component/base/Layout";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import axiosApiInstance from "../../helper/axiosInstance";
 import InputPin from "react-pin-input";
@@ -14,6 +14,12 @@ export default function History() {
   });
   const [page, setPage] = useState("index");
   const input = useRef();
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      router.push("/auth/login");
+    }
+  }, []);
 
   const handleSubmit = () => {
     if (page === "index") {

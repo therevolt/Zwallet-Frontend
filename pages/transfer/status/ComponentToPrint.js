@@ -50,7 +50,11 @@ export default class ComponentToPrint extends React.PureComponent {
             <div className="d-flex">
               <div className="avatar-user">
                 <img
-                  src={this.props.data.avatarReceiver}
+                  src={
+                    this.props.status === "receiver"
+                      ? this.props.data.avatarSender
+                      : this.props.data.avatarReceiver
+                  }
                   alt=""
                   width="52px"
                   height="52px"
@@ -58,8 +62,16 @@ export default class ComponentToPrint extends React.PureComponent {
                 />
               </div>
               <div className="detail-transaction d-flex flex-column mx-3">
-                <span className="fw-bold">{this.props.data.receiverName}</span>
-                <span>{PhoneFormat(this.props.data.phoneReceiver)}</span>
+                <span className="fw-bold">
+                  {this.props.status === "receiver"
+                    ? this.props.data.senderName
+                    : this.props.data.receiverName}
+                </span>
+                <span>
+                  {this.props.status === "receiver"
+                    ? PhoneFormat(this.props.data.phoneSender)
+                    : PhoneFormat(this.props.data.phoneReceiver)}
+                </span>
               </div>
             </div>
           </div>

@@ -109,13 +109,7 @@ export default function History() {
         <div className="card-info-transfer d-flex justify-content-between mx-4 my-4 cursor-pointer">
           <div className="d-flex">
             <div className="avatar-user me-2 my-1">
-              <img
-                src={user.avatar}
-                alt=""
-                width="56px"
-                height="45px"
-                style={{ borderRadius: "10px" }}
-              />
+              <img src={user.avatar} alt="" width="52px" height="52px" className="profile" />
             </div>
             <div className="detail-transaction d-flex flex-column">
               <span className="fw-bold">{`${user.fullName}`}</span>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
@@ -8,6 +8,12 @@ import Button from "../../component/base/Button";
 export default function SignUp() {
   const [data, setData] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      router.push("/home");
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { id, value } = e.target;

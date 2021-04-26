@@ -1,11 +1,17 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Button from "../../component/base/Button";
 import Header from "../../component/base/Head";
 
 export default function ResetPassword() {
   const [data, setData] = useState({ email: "" });
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      router.push("/home");
+    }
+  }, []);
 
   const handleChange = (e) => {
     setData({ email: e.target.value });

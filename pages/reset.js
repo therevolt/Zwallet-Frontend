@@ -11,8 +11,12 @@ export default function ResetPassword() {
   const token = location.href.split("token=")[1];
 
   useEffect(() => {
-    if (!token) {
-      router.push("/auth/login");
+    if (localStorage.getItem("token")) {
+      router.push("/home");
+    } else {
+      if (!token) {
+        router.push("/auth/login");
+      }
     }
   }, []);
 

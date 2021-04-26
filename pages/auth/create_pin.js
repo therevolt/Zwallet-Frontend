@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputPin from "react-pin-input";
 import Swal from "sweetalert2";
 import Header from "../../component/base/Head";
@@ -9,6 +9,12 @@ import Button from "../../component/base/Button";
 export default function CreatePin() {
   const [data, setData] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      router.push("/home");
+    }
+  }, []);
 
   const handleSubmit = () => {
     const token = window.location.href.split("token=")[1];

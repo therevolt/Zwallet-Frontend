@@ -1,6 +1,6 @@
 import Layout from "../../component/base/Layout";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import axiosApiInstance from "../../helper/axiosInstance";
 import Button from "../../component/base/Button";
@@ -14,6 +14,12 @@ export default function History() {
   };
   const [data, setData] = useState(defaultJson);
   const [show, setShow] = useState({});
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      router.push("/auth/login");
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { id, value } = e.target;

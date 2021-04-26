@@ -20,7 +20,7 @@ export default function TransferTo() {
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      if (state.phone) {
+      if (state.phone && state.phone !== "0") {
         if (!user) {
           axiosApiInstance
             .get(`${process.env.NEXT_PUBLIC_URL_API}/users/details?userId=${id}`)
