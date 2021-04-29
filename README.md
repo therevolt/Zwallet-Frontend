@@ -40,7 +40,7 @@ cd Zwallet-Frontend
 <br/> ![Preview](https://i.ibb.co/rssPC1L/Transfer-Pages.png)
 
 ## 💻 Live Demo <a name = "live_demo"></a>
-[Netlify](https://tickitz-web.netlify.app)
+[Netlify](https://zwallet-new.vercel.app)
 
 ## Backend
 #### Repo Backend : https://github.com/therevolt/Zwallet-Backend
