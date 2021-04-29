@@ -34,8 +34,6 @@ cd Zwallet-Frontend
 ## 🔎 Preview Design <a name = "preview"></a>
 - <b>Landing Page</b>
 <br/> ![Preview](https://i.ibb.co/RBvjMhh/Untitled-design-17.png)
-- <b>Login Page</b>
-<br/> ![Preview](https://i.ibb.co/ctKTfh9/Login-Pages.png)
 - <b>Home Page</b>
 <br/> ![Preview](https://i.ibb.co/N9Qfkgk/Home-Pages.png)
 - <b>Transfer Page</b>
