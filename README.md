@@ -35,9 +35,9 @@ cd Zwallet-Frontend
 - <b>Landing Page</b>
 <br/> ![Preview](https://i.ibb.co/RBvjMhh/Untitled-design-17.png)
 - <b>Home Page</b>
-<br/> ![Preview](https://i.ibb.co/N9Qfkgk/Home-Pages.png)
+<br/> ![Preview](https://i.ibb.co/hMczd13/Home-Pages.png)
 - <b>Transfer Page</b>
-<br/> ![Preview](https://i.ibb.co/rssPC1L/Transfer-Pages.png)
+<br/> ![Preview](https://i.ibb.co/R4TqSQn/Transfer-Pages.png)
 
 ## 💻 Live Demo <a name = "live_demo"></a>
 [Netlify](https://zwallet-new.vercel.app)
