@@ -46,6 +46,7 @@ export default function Login() {
           router.push("/home");
         })
         .catch((err) => {
+          console.log(err);
           Swal.fire("Something Error!", err.response.data.message, "error");
           setData(defaultJson);
         });

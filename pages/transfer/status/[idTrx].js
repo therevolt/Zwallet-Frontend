@@ -8,7 +8,7 @@ import ComponentToPrint from "./ComponentToPrint";
 import { useReactToPrint } from "react-to-print";
 import React, { useRef } from "react";
 
-export default function History({ details }) {
+export default function History() {
   const router = useRouter();
   const state = useSelector((states) => states.user.data);
   const [data, setData] = useState(null);
@@ -20,22 +20,29 @@ export default function History({ details }) {
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      if (!data && details) {
-        if (details === "ERROR") {
-          Swal.fire("ERROR!", "Transaction Details Not Found", "error");
-          router.push("/history");
-        } else {
-          if (details.senderId === state.userId || details.receiverId === state.userId) {
-            if (details.senderId === state.userId) {
-              setStatus("sender");
+      if (!data) {
+        const id = window.location.pathname.split("/")[3];
+        axios
+          .get(`${process.env.NEXT_PUBLIC_URL_API}/trx/${id}`)
+          .then((result) => {
+            setData(result.data.data);
+            if (
+              result.data.data.senderId === state.userId ||
+              result.data.data.receiverId === state.userId
+            ) {
+              if (result.data.data.senderId === state.userId) {
+                setStatus("sender");
+              } else {
+                setStatus("receiver");
+              }
             } else {
-              setStatus("receiver");
+              router.push("/history");
             }
-            setData(details);
-          } else {
-            router.push("/history");
-          }
-        }
+          })
+          .catch((err) => {
+            router.push("/auth/login");
+            localStorage.removeItem("token");
+          });
       } else {
         router.push("/history");
       }
@@ -144,34 +151,34 @@ export default function History({ details }) {
   );
 }
 
-export const getStaticProps = async (ctx) => {
-  const id = ctx.params.idTrx;
-  let details = "";
-  try {
-    if (id) {
-      const result = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/trx/${id}`);
-      details = result.data.data;
-    }
-  } catch (error) {
-    details = "ERROR";
-  }
-  return {
-    props: {
-      details,
-    },
-  };
-};
+// export const getStaticProps = async (ctx) => {
+//   const id = ctx.params.idTrx;
+//   let details = "";
+//   try {
+//     if (id) {
+//       const result = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/trx/${id}`);
+//       details = result.data.data;
+//     }
+//   } catch (error) {
+//     details = "ERROR";
+//   }
+//   return {
+//     props: {
+//       details,
+//     },
+//   };
+// };
 
-export const getStaticPaths = async () => {
-  const result = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/trx/list/all`);
-  const trx = result.data.data;
-  const paths = trx.map((item) => {
-    return {
-      params: { idTrx: item.toString() },
-    };
-  });
-  return {
-    fallback: true,
-    paths,
-  };
-};
+// export const getStaticPaths = async () => {
+//   const result = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/trx/list/all`);
+//   const trx = result.data.data;
+//   const paths = trx.map((item) => {
+//     return {
+//       params: { idTrx: item.toString() },
+//     };
+//   });
+//   return {
+//     fallback: true,
+//     paths,
+//   };
+// };

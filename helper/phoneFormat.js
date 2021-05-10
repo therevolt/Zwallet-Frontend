@@ -18,8 +18,8 @@ const PhoneFormat = (value) => {
       .join(""),
   };
   return json.num1
-    ? `+62 ${json.num1}-${json.num2}-${json.num3}${json.numN && `-${json.numN}`}`
-    : "-";
+    ? `+62 ${json.num1}${json.num2}${json.num3}${json.numN && `${json.numN}`}`
+    : "+62";
 };
 
 export default PhoneFormat;

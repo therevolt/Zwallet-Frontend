@@ -27,6 +27,10 @@ ul {
   padding-left: 0 !important;
 }
 
+img {
+  object-fit: cover;
+}
+
 .confirmation {
   height: 700px !important;
 }

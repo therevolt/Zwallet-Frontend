@@ -55,7 +55,6 @@ export default function History() {
     const { id, value } = e.target;
     if (id === "phone") {
       if (value[0] !== "0" && value[0] !== "6" && value[1] !== "2") {
-        console.log(value[0] !== "0");
         setData({ ...data, [id]: value.replace(/\D*/g, "") });
       }
     } else {
