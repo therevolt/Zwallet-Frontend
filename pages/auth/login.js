@@ -33,9 +33,7 @@ export default function Login() {
       Swal.fire("Error!", "Password Cannot Be Null", "error");
     } else {
       axios
-        .post(`${process.env.NEXT_PUBLIC_URL_API}/users/login`, data, {
-          withCredentials: true,
-        })
+        .post(`${process.env.NEXT_PUBLIC_URL_API}/users/login`, data)
         .then((result) => {
           Swal.fire("Success", result.data.message, "success");
           localStorage.setItem("token", result.data.data.token);
