@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function SideMenu() {
   const [active, setActive] = useState(false);
   const classes = "my-5 cursor-pointer menu-active";
   const router = useRouter();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.data);
 
   useEffect(() => {
     let location = window.location.href.split("/")[3];
@@ -203,6 +204,24 @@ export default function SideMenu() {
             Profile
           </span>
         </li>
+        {user.role === "admin" && (
+          <li
+            className={active === "manage_user" ? classes : "my-5 cursor-pointer"}
+            onClick={onClick}
+            id="manage_user"
+          >
+            <span className="icon mx-3" onClick={onClick} id="manage_user">
+              <img width="28" height="28" src="/user-list.svg" />
+            </span>
+            <span
+              className={active === "manage_user" ? "primary-text" : "text-gray"}
+              onClick={onClick}
+              id="manage_user"
+            >
+              Manage User
+            </span>
+          </li>
+        )}
       </ul>
       <div className="position-absolute bottom-0 mx-2 my-4 cursor-pointer" onClick={Logout}>
         <span className="icon mx-3">
