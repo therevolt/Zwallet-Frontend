@@ -13,7 +13,7 @@ export default function TransferTo() {
   const router = useRouter();
   const dispatch = useDispatch();
   const state = useSelector((states) => states.user.data);
-  const { id } = router.query;
+  const id = window.location.pathname.split("/")[2];
   const [user, setUser] = useState(null);
   const [wallets, setWallet] = useState(null);
   const [data, setData] = useState({});

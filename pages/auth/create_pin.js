@@ -42,7 +42,11 @@ export default function CreatePin() {
       <Header name="Create New PIN" />
       <div className="col-7 right-panel">
         <div className="container d-flex flex-column align-items-center py-3">
-          <div className="title-name text-white" style={{ width: "35vw" }}>
+          <div
+            className="title-name text-white cursor-pointer"
+            style={{ width: "35vw" }}
+            onClick={() => router.push("/")}
+          >
             Zwallet
           </div>
           <div className="img-app my-2">

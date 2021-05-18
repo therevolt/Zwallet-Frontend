@@ -121,7 +121,7 @@ export default function History() {
         })
       ) : (
         <>
-          <img src="/history.svg" width="300px" style={{ margin: "50px 20vw" }}></img>
+          <img src="/history.svg" width="100px" style={{ margin: "50px 45%" }}></img>
           <p style={{ textAlign: "center" }}>No Have History Transactions</p>
         </>
       )}

@@ -18,7 +18,6 @@ const ManageUser = () => {
             axiosApiInstance
               .get(`${process.env.NEXT_PUBLIC_URL_API}/users/lists?size=100`)
               .then((result) => {
-                console.log(result.data.data);
                 setList(result.data.data);
               })
               .catch((err) => {

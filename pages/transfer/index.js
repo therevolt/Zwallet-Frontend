@@ -130,7 +130,7 @@ export default function History() {
                         </div>
                         <div className="detail-transaction d-flex flex-column mx-3">
                           <span className="fw-bold">{item.fullName}</span>
-                          <span>{PhoneFormat(item.phone)}</span>
+                          <span className="phone">{PhoneFormat(item.phone)}</span>
                         </div>
                       </div>
                     </div>

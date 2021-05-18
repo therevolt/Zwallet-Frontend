@@ -4,7 +4,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import Header from "../../component/base/Head";
 import { useDispatch } from "react-redux";
-import Button from "../../component/base/Button";
+import EyePassword from "../../component/base/EyePassword";
+import ButtonAuth from "../../component/module/ButtonAuth";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -14,6 +15,12 @@ export default function Login() {
     password: "",
   };
   const [data, setData] = useState(defaultJson);
+  const [show, setShow] = useState(false);
+  const [load, setLoad] = useState(false);
+
+  const handleShowPass = () => {
+    setShow(!show);
+  };
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -32,6 +39,7 @@ export default function Login() {
     } else if (data.password === "") {
       Swal.fire("Error!", "Password Cannot Be Null", "error");
     } else {
+      setLoad(true);
       axios
         .post(`${process.env.NEXT_PUBLIC_URL_API}/users/login`, data)
         .then((result) => {
@@ -42,9 +50,10 @@ export default function Login() {
             payload: result.data.data,
           });
           router.push("/home");
+          setLoad(false);
         })
         .catch((err) => {
-          console.log(err);
+          setLoad(false);
           Swal.fire("Something Error!", err.response.data.message, "error");
           setData(defaultJson);
         });
@@ -56,7 +65,11 @@ export default function Login() {
       <Header name="Login Pages" />
       <div className="col-7 right-panel">
         <div className="container d-flex flex-column align-items-center py-3">
-          <div className="title-name text-white" style={{ width: "35vw" }}>
+          <div
+            className="title-name text-white cursor-pointer"
+            style={{ width: "35vw" }}
+            onClick={() => router.push("/")}
+          >
             Zwallet
           </div>
           <div className="img-app my-2">
@@ -148,12 +161,17 @@ export default function Login() {
               </svg>
             </div>
             <input
-              type="password"
+              type={show ? "text" : "password"}
               name="password"
               id="password"
               placeholder="Enter your password"
               onChange={handleChange}
               value={data.password}
+            />
+            <EyePassword
+              className="position-absolute end-0 top-0 mx-3"
+              onClick={handleShowPass}
+              show={show}
             />
           </div>
           <div className="forgot-pass position-relative">
@@ -165,10 +183,10 @@ export default function Login() {
             </div>
           </div>
           <div className="mt-5 pt-5">
-            <Button
-              className="btn-filled login text-white"
-              onClick={handleClick}
-              disabled={data && data.email && data.password ? false : true}
+            <ButtonAuth
+              disable={data && data.email && data.password ? false : true}
+              load={load}
+              handleClick={handleClick}
               text="Login"
             />
           </div>

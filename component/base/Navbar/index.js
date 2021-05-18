@@ -54,7 +54,7 @@ export default function Navbar(props) {
         <div
           className={
             props.type === "logged"
-              ? "position-absolute mx-4 my-4 title-name primary-text d-sm-none d-md-block d-lg-block"
+              ? "position-absolute mx-4 my-4 title-name primary-text d-sm-none d-md-block d-lg-block cursor-pointer"
               : "position-absolute mx-4 my-4 title-name text-white"
           }
         >

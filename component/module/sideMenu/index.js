@@ -23,10 +23,10 @@ export default function SideMenu() {
   };
 
   const Logout = () => {
+    router.push("/");
     localStorage.removeItem("token");
     document.cookie = "";
     dispatch({ type: "LOGOUT" });
-    router.push("/");
   };
 
   return (
@@ -204,7 +204,7 @@ export default function SideMenu() {
             Profile
           </span>
         </li>
-        {user.role === "admin" && (
+        {user?.role === "admin" && (
           <li
             className={active === "manage_user" ? classes : "my-5 cursor-pointer"}
             onClick={onClick}

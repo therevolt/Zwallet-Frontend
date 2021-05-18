@@ -4,10 +4,17 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/router";
 import Header from "../../component/base/Head";
 import Button from "../../component/base/Button";
+import EyePassword from "../../component/base/EyePassword";
+import ButtonAuth from "../../component/module/ButtonAuth";
 
 export default function SignUp() {
   const [data, setData] = useState("");
+  const [show, setShow] = useState(false);
   const router = useRouter();
+
+  const handleShowPass = () => {
+    setShow(!show);
+  };
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -47,7 +54,11 @@ export default function SignUp() {
       <Header name="SignUp Pages" />
       <div className="col-7 right-panel">
         <div className="container d-flex flex-column align-items-center py-3">
-          <div className="title-name text-white" style={{ width: "35vw" }}>
+          <div
+            className="title-name text-white cursor-pointer"
+            style={{ width: "35vw" }}
+            onClick={() => router.push("/")}
+          >
             Zwallet
           </div>
           <div className="img-app my-2">
@@ -137,7 +148,7 @@ export default function SignUp() {
               onChange={handleChange}
             />
           </div>
-          <div className="input-password position-relative my-3">
+          <div className="input-password position-relative mt-3">
             <div className="position-absolute">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -165,20 +176,21 @@ export default function SignUp() {
               </svg>
             </div>
             <input
-              type="password"
+              type={show ? "text" : "password"}
               name="password"
               id="password"
               placeholder="Enter your password"
               onChange={handleChange}
+              value={data.password}
+            />
+            <EyePassword
+              className="position-absolute end-0 top-0 mx-3"
+              onClick={handleShowPass}
+              show={show}
             />
           </div>
           <div className="mt-3 pt-5">
-            <Button
-              className="btn-filled login text-white"
-              onClick={handleClick}
-              disabled={data && data.username && data.email && data.password ? false : true}
-              text="Sign Up"
-            />
+            <ButtonAuth data={data} handleClick={handleClick} disabled={data && data.username && data.email && data.password ? false : true} text="Sign Up"/>
           </div>
           <div className="sign-up text-center my-4">
             Already have an account? Let’s{" "}

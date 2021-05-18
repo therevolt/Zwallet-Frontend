@@ -31,6 +31,18 @@ img {
   object-fit: cover;
 }
 
+input {
+  background-color: transparent !important;
+}
+
+span.phone {
+  font-size: 15px;
+}
+
+.spinner-grow {
+  margin: 0px 50%;
+}
+
 .confirmation {
   height: 700px !important;
 }

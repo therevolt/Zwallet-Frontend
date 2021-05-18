@@ -1,7 +1,19 @@
+import Swal from "sweetalert2";
 import Layout from "../../component/base/Layout";
-import SideMenu from "../../component/module/sideMenu";
+import axiosApiInstance from "../../helper/axiosInstance";
 
 export default function Topup() {
+  const handleDemoBalance = () => {
+    axiosApiInstance
+      .get(`${process.env.NEXT_PUBLIC_URL_API}/wallet/demo`)
+      .then((result) => {
+        Swal.fire("SUCCESS", result.data.message, "success");
+      })
+      .catch((err) => {
+        Swal.fire("FAILED", err.response.data.message, "info");
+      });
+  };
+
   return (
     <Layout
       title="Topup Pages"
@@ -12,6 +24,11 @@ export default function Topup() {
     >
       <div className="head-transaction mx-4 my-4 fw-bold fs-4">How To Top Up</div>
       <div className="weekly mx-4">
+        <div>
+          <button className="btn-primary rounded outline-none" onClick={handleDemoBalance}>
+            Get Demo Balance
+          </button>
+        </div>
         <div className="card-topup d-flex justify-content-between my-3">
           <div className="d-flex">
             <div className="number primary-text fw-bold">1</div>
