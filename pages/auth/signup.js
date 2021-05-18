@@ -3,7 +3,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
 import Header from "../../component/base/Head";
-import Button from "../../component/base/Button";
 import EyePassword from "../../component/base/EyePassword";
 import ButtonAuth from "../../component/module/ButtonAuth";
 
@@ -190,7 +189,12 @@ export default function SignUp() {
             />
           </div>
           <div className="mt-3 pt-5">
-            <ButtonAuth data={data} handleClick={handleClick} disabled={data && data.username && data.email && data.password ? false : true} text="Sign Up"/>
+            <ButtonAuth
+              data={data}
+              handleClick={handleClick}
+              disabled={data && data.username && data.email && data.password ? false : true}
+              text="Sign Up"
+            />
           </div>
           <div className="sign-up text-center my-4">
             Already have an account? Let’s{" "}

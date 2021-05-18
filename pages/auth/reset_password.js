@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Button from "../../component/base/Button";
 import Header from "../../component/base/Head";
+import ButtonAuth from "../../component/module/ButtonAuth";
 
 export default function ResetPassword() {
   const [data, setData] = useState({ email: "" });
@@ -101,12 +102,7 @@ export default function ResetPassword() {
             />
           </div>
           <div className="mt-3 pt-3">
-            <Button
-              className="btn-filled login text-white"
-              disabled={data && data.email && data.email.match(/@\w*\.com/) ? false : true}
-              text="Confirm"
-              onClick={handleSubmit}
-            />
+            <ButtonAuth data={data} handleClick={handleSubmit} disable={data && data.email && data.email.match(/@\w*\.com/) ? false : true} text="Confirm"/>
           </div>
         </div>
       </div>
