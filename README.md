@@ -35,14 +35,14 @@ npm install
 
 ## 🔎 Preview Design <a name = "preview"></a>
   <span>
-    <img width="480" height="315" src="https://i.ibb.co/RBvjMhh/Untitled-design-17.png">   
-    <img width="480" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Home-Pages%20(1).png">   
-    <img width="480" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfer-Pages%20(1).png">   
-    <img width="480" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfers.png">
-    <img width="480" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfer-Status.png">
-    <img width="480" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfer-Status%201.png">
-    <img width="480" height="328" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfer-Status%202.png">
-    <img width="480" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Personal-Information.png">
+    <img width="415" height="272" src="https://i.ibb.co/RBvjMhh/Untitled-design-17.png">   
+    <img width="415" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Home-Pages%20(1).png">   
+    <img width="415" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfer-Pages%20(1).png">   
+    <img width="415" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfers.png">
+    <img width="415" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfer-Status.png">
+    <img width="415" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfer-Status%201.png">
+    <img width="415" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfer-Status%202.png">
+    <img width="415" height="352" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Personal-Information.png">
   </span>
 
 ## 💻 Live Demo <a name = "live_demo"></a>
