@@ -34,18 +34,16 @@ npm install
 - Type ``` npm run dev``` To Start Website
 
 ## 🔎 Preview Design <a name = "preview"></a>
-<p align="center">
   <span>
-    <img width="400" height="400" src="https://i.ibb.co/RBvjMhh/Untitled-design-17.png">   
-    <img width="400" height="400" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Home-Pages%20(1).png">   
-    <img width="400" height="400" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfer-Pages%20(1).png">   
-    <img width="400" height="400" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfers.png">
-    <img width="400" height="400" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfer-Status.png">
-    <img width="400" height="400" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfer-Status%201.png">
-    <img width="400" height="400" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfer-Status%202.png">
-    <img width="400" height="400" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Personal-Information.png">
+    <img width="480" height="315" src="https://i.ibb.co/RBvjMhh/Untitled-design-17.png">   
+    <img width="480" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Home-Pages%20(1).png">   
+    <img width="480" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfer-Pages%20(1).png">   
+    <img width="480" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfers.png">
+    <img width="480" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfer-Status.png">
+    <img width="480" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfer-Status%201.png">
+    <img width="480" height="328" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Transfer-Status%202.png">
+    <img width="480" src="https://raw.githubusercontent.com/therevolt/Zwallet-Frontend/master/preview/Personal-Information.png">
   </span>
-</p>
 
 ## 💻 Live Demo <a name = "live_demo"></a>
 [Visit Project](https://zwallet-new.vercel.app)
