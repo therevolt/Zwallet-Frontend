@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="" rel="noopener">
+  <a href="https://github.com/therevolt/Zwallet-Frontend" rel="noopener">
  <img width=400px src="https://i.ibb.co/KxRM9rJ/Blue-Bold-Marketing-Letter-M-Logo-1.png" alt="logo"></a>
 </p>
 <div align="center">
